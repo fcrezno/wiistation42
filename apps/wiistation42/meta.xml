@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app version="1">
+    <name>WiiStation 42</name>
+    <version>1.0</version>
+    <coder>dborth, SuperrSonic; television mode by crezno</coder>
+    <release_date>20260921000000</release_date>
+    <arguments>
+        <arg>tv=sd:/wiistation42</arg>
+    </arguments>
+    <short_description>Your own television station</short_description>
+    <long_description>A television channel that runs on the clock of the Wii. It starts with the programme that should be on air, at the right second, and moves to the next one by itself.
+
+CONTROLS (GameCube controller)
+D-pad left / right - tap to skip, hold to scan
+C-stick left / right - smooth scan, speed follows the push
+L / R - channel down / up
+L + R together - start this programme again from the beginning
+Z - skip the break (only while a break is playing)
+A - pause
+B - show the bar
+X / Y - volume down / up
+START - back to the menu
+
+CHANNELS
+1 the station, 2 the guide, 3 without adverts, 4 this list of controls.
+
+THE PICTURE
+Press START, then Settings. Nothing is set for you.
+Global: Double Strike (240p), Night Filter, Screen Burn-in Reduction.
+Videos: Screen Zoom, Screen Position, Aspect Ratio, Deflicker, Set VI Width to 720.
+
+The schedule comes from the files in sd:/wiistation42. Make them with the planner on the PC.</long_description>
+</app>

@@ -1,0 +1,76 @@
+name: Build WiiStation 42 (WiiMC)
+
+# WiiMC is GPL-3.0. This builds the upstream source at a fixed commit with one
+# change of ours (tools/mod_input.py) and keeps the result as an artifact.
+#
+# Upstream dborth/wiimc was updated in April 2026 to build with the current
+# devkitPPC and libogc2, and it already carries the WiiMC-SS changes, including
+# GameCube controller support. So we build that, in the same container upstream
+# uses, and nothing from 2014 is needed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: source repository
+        default: dborth/wiimc
+      commit:
+        description: commit to build
+        default: fae733f1ee51db8f8c9e3560cdb8b65835174f00
+      image:
+        description: build container
+        default: ghcr.io/extremscorner/libogc2:latest
+      jobs:
+        description: parallel make jobs
+        default: "4"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get this repo (the change)
+        uses: actions/checkout@v4
+        with:
+          path: mod
+
+      - name: Get the WiiMC source
+        run: |
+          git clone https://github.com/${{ inputs.repo }}.git src
+          cd src
+          git checkout --detach ${{ inputs.commit }}
+          git rev-parse HEAD
+
+      - name: Apply our changes
+        run: |
+          cp mod/player/src_add/*.cpp mod/player/src_add/*.h src/source/
+          # crezno's art over WiiMC's, file for file (same names, same sizes): the
+          # wordmark as logo.png / logo_large.png, and any icon drawn for it
+          cp mod/player/images/*.png src/source/images/
+          # crezno's bitmap font as TrueType (player/tools/make_font_ttf.py) for every menu
+          cp mod/player/fonts/font.ttf src/source/fonts/font.ttf
+          python3 mod/player/tools/mod_input.py src/source/input.cpp
+          python3 mod/player/tools/mod_tv.py src
+          cd src && git status --short && git diff --stat
+
+      - name: Build in the upstream container
+        run: |
+          docker run --rm -v "$PWD":/work -w /work ${{ inputs.image }} bash -lc '
+            set -e
+            powerpc-eabi-gcc --version | head -1
+            cd src
+            make -f Makefile -j${{ inputs.jobs }} 2>&1 | tail -n 60
+            ls -la executables/
+          '
+
+      - name: Result
+        run: |
+          ls -la src/executables/wiimc.dol
+          sha256sum src/executables/wiimc.dol
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wiistation42-dol
+          path: |
+            src/executables/wiimc.dol
+            src/executables/wiimc.elf
+          if-no-files-found: error

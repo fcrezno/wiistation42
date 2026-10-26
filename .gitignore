@@ -1,0 +1,18 @@
+# Your own videos, schedules and caches stay on your PC.
+videos/
+*.avi
+*.mp4
+*.mkv
+planner/week.json
+planner/lengths.json
+planner/sequences*.json
+planner/channel*.txt
+planner/*.png
+stations/*.json
+!stations/example.json
+art/old-clips/
+out*/
+__pycache__/
+*.pyc
+*.dol
+*.elf

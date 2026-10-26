@@ -1,0 +1,36 @@
+{
+  "network_name": "My Station",
+  "channel_number": 1,
+  "network_type": "standard",
+  "schedule_increment": 30,
+  "break_strategy": "end",
+  "break_duration": 180,
+  "commercial_free": false,
+  "content_dir": "videos",
+  "commercial_dir": "_breaks",
+  "off_air_video": "_breaks/Colour bars 60s.avi",
+  "sign_off_video": "_breaks/Please stand by 30s.avi",
+  "day_templates": {
+    "weekday": {
+      "6": {"tags": "Morning Show", "sequence": "morning"},
+      "7": {"tags": "Cartoon A", "sequence": "cartoon_a"},
+      "8": {"tags": "Cartoon B", "sequence": "cartoon_b"},
+      "18": {"tags": "Sitcom", "sequence": "sitcom"},
+      "20": {"tags": "Movie Night"},
+      "2": {"event": "signoff"}
+    },
+    "weekend": {
+      "8": {"tags": "Cartoon A", "sequence": "cartoon_a"},
+      "9": {"tags": "Cartoon B", "sequence": "cartoon_b"},
+      "20": {"tags": "Movie Night"},
+      "3": {"event": "signoff"}
+    }
+  },
+  "monday": "weekday",
+  "tuesday": "weekday",
+  "wednesday": "weekday",
+  "thursday": "weekday",
+  "friday": "weekday",
+  "saturday": "weekend",
+  "sunday": "weekend"
+}
